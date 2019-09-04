@@ -1,0 +1,26 @@
+<div [@openMenu]="showMenu ? 'open' : 'closed'" class="sidebar">
+  <div class="example-list" cdkDropList (cdkDropListDropped)="moveColumn($event)">
+    <div class="search-field">
+      <div class="search-label">Search</div>
+      <mat-form-field style="width:100%;">
+        <input type="text" matInput [(ngModel)]="dash.dataSource.filter">
+      </mat-form-field>
+    </div>
+    <div *ngFor="let column of columns;let i = index;let f = first;" class="drag-box" [style.border-bottom]="'solid 1px #ccc;'" cdkDrag>
+      <div class="row">
+        <span class="col-md-5">{{column.name}}</span>
+        <button mat-button (click)="toggleColumn(column)" class="col-md-2"><mat-icon>{{column.show ? 'visibility' : 'visibility_off'}}</mat-icon></button>
+        <button mat-button (click)="searchColumn(column)" class="col-md-2"><mat-icon>search</mat-icon></button>
+        <mat-icon class="example-handle" cdkDragHandle>menu</mat-icon>
+      </div>
+      <div *ngIf="column.search" class="row">
+        <mat-form-field style="width:100%;">
+          <input type="text" matInput [(ngModel)]="column.filter" (keyup)="filterPredicate();">
+        </mat-form-field>
+      </div>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option [value]="option">{{column.name}}</mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+</div>
